@@ -200,10 +200,10 @@ void display(){
     for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
         //check if Data is -1 if Not Then  Display
         if(isEmptyCell(i)){
-            printf("[%d]     \n", i);
+            printf("    [%d]     \n", i);
         } 
         else {
-            printf("[%d]    %d\n", i, hashTable[i]);
+            printf("    [%d]    %d\n", i, hashTable[i]);
         }
     }
     printf("-------------------\n");
@@ -250,7 +250,7 @@ void quadraticProbing(int key, int index){
         // }
 
         //Set NewIndex to New Index and modulo Size of 
-        newIndex = (index + ((int)pow(i, 2)))%SIZEOF_HASH_TABLE;
+        newIndex = (index + ((int)pow(i, 2))) % SIZEOF_HASH_TABLE;
         i++;
     }
     //index is Empty
@@ -305,40 +305,30 @@ bool contains(int key){
     //     }
     // }
 
-
-
     //HashTable lookup 
     // For linear and Quadratic SEARCH
     int count = 0;
-    int max_Size = SIZEOF_HASH_TABLE+1;
+    int maxSize = SIZEOF_HASH_TABLE + 1;
 
     //Avg case O(n/2)
     //Best Case O(1)
     //Worst case O(n+1)
-    while(count < max_Size)
-    {
-        if(hashTable[index] == key)
-        {
-            
+    while(count < maxSize){
+        if(hashTable[index] == key){
             return true;
-        }
-        else
-        {
-            
-
+        } else {
             //Quardatic indexing (Double size of index)
-            index = count*2;
+            index = count * 2;
             //make index in Array Size
-            int mod_index = index % SIZEOF_HASH_TABLE;
+            int modIndex = index % SIZEOF_HASH_TABLE;
 
             //if count is exceed Array Size
-            if (index >= SIZEOF_HASH_TABLE)
-            {
+            if (index >= SIZEOF_HASH_TABLE){
                 //make Linear indexing (index size is in Array)
-                mod_index = (index-1)%(SIZEOF_HASH_TABLE);
+                modIndex = (index - 1) % SIZEOF_HASH_TABLE;
             }
             //change index value to mod_index
-            index = mod_index;
+            index = modIndex;
             count++;
         }
         //printf("%d ",index);
