@@ -121,18 +121,61 @@ void delete(int key){
         printf("The key %d does not exist in the hash table.", key);
         return;
     }
-    //Check Data in Array by Default
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
-        //Find Data in Array
-        if(hashTable[i] == key){
-            //get Data from Array
-            int element = hashTable[i];
-            //set Array's Data to -1
-            hashTable[i] = EMPTY_VALUE;
-            printf("Deleted %d successfully.", element);
-            break;
+    //Linear Search
+    // //Check Data in Array by Default
+    // for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+    //     //Find Data in Array
+    //     if(hashTable[i] == key){
+    //         //get Data from Array
+    //         int element = hashTable[i];
+    //         //set Array's Data to -1
+    //         hashTable[i] = EMPTY_VALUE;
+    //         printf("Deleted %d successfully.", element);
+    //         break;
+    //     }
+    // }
+
+    //Hash table lookup
+    int index = hash(key);
+    //HashTable lookup 
+    // For linear and Quadratic SEARCH
+    int count = 0;
+    int max_Size = SIZEOF_HASH_TABLE+1;
+
+    //Avg case O(n/2)
+    //Best Case O(1)
+    //Worst case O(n+1)
+    while(count < max_Size)
+    {
+        if(hashTable[index] == key)
+        {
+            
+            hashTable[index] = EMPTY_VALUE;
+            printf("Deleted %d successfully.", key);
+            return;
         }
+        else
+        {
+            
+
+            //Quardatic indexing (Double size of index)
+            index = count*2;
+            //make index in Array Size
+            int mod_index = index % SIZEOF_HASH_TABLE;
+
+            //if count is exceed Array Size
+            if (index >= SIZEOF_HASH_TABLE)
+            {
+                //make Linear indexing (index size is in Array)
+                mod_index = (index-1)%(SIZEOF_HASH_TABLE);
+            }
+            //change index value to mod_index
+            index = mod_index;
+            count++;
+        }
+        // printf(" %d ",index);
     }
+
 }
 
 //Delete all numerical Data from Array
@@ -267,16 +310,13 @@ bool contains(int key){
     //HashTable lookup 
     // For linear and Quadratic SEARCH
     int count = 0;
-    int run = 0;
     int max_Size = SIZEOF_HASH_TABLE+1;
-    int sum = 0;
 
     //Avg case O(n/2)
     //Best Case O(1)
     //Worst case O(n+1)
     while(count < max_Size)
     {
-        run++;
         if(hashTable[index] == key)
         {
             
