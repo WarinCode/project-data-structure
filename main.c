@@ -109,8 +109,8 @@ void insert(int key){
     //Check is Empty if False
     } else {
         //call linearProbing
-        linearProbing(key, index);
-        //quadraticProbing(key, index);
+        //linearProbing(key, index);
+        quadraticProbing(key, index);
     }
 }
 
@@ -261,6 +261,8 @@ bool contains(int key){
     //         return true;
     //     }
     // }
+
+
 
     //HashTable lookup 
     // For linear and Quadratic SEARCH
