@@ -4,7 +4,7 @@
   <br>
 </div>
 
-[!NOTE]
+> [!NOTE]
 > ส่งงาน project วิชา Data Structures and Algorithms ปี 2 ภาคต้น
 > โดยโปรเจคนี้ทำในหัวข้อเรื่อง Hashing
 
