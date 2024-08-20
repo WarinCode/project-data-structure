@@ -128,6 +128,11 @@ void delete(int key){
         printf("Hash table is empty!\n");
         return;
     }
+    // Check if it is a negative number
+    if(isNegativeNumber(key)){
+        printf("The key can't be entered as a negative number!\n");
+        return;
+    }
     // Check if Data not in Array
     if(!contains(key)){
         printf("The key %d does not exist in the hash table!\n", key);
