@@ -36,7 +36,7 @@ int main(void) {
 
     // Run Program
     while(runnable){
-        printf("\nMenu\n");
+        printf("\n  Menu\n");
         printf(" 1. Insert\n 2. Delete\n 3. Display\n 4. Search\n 5. Delete all\n 6. Exit\n");
         printf("Enter a number:");
         // Get choice number
