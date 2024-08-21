@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <math.h>
-#include <stdbool.h>
 
 // Declare all directives
-#define SIZEOF_HASH_TABLE 10
+#define SIZEOF_HASH_TABLE 11
 #define EMPTY_VALUE -1
 
 // Declare the hash table
@@ -141,49 +140,49 @@ void delete(int key){
 
     // Linear Search
     // Check Data in Array by Default
-//     for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
-//         // Find Data in Array
-//         if(hashTable[i] == key){
-//             // Get Data from Array
-//             int temp = hashTable[i];
-//             // Set Array's Data to -1
-//             hashTable[i] = EMPTY_VALUE;
-//             printf("Deleted %d successfully.", temp);
-//             break;
-//         }
-//     }
+     for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+         // Find Data in Array
+         if(hashTable[i] == key){
+             // Get Data from Array
+             int temp = hashTable[i];
+             // Set Array's Data to -1
+             hashTable[i] = EMPTY_VALUE;
+             printf("Deleted %d successfully.", temp);
+             break;
+         }
+     }
 
     // Hash table lookup
-    int index = hash(key);
+//    int index = hash(key);
     // HashTable lookup
     // For linear and Quadratic SEARCH
-    int count = 0;
-    int maxSize = SIZEOF_HASH_TABLE + 1;
+//    int count = 0;
+//    int maxSize = SIZEOF_HASH_TABLE + 1;
 
     // Avg case O(n/2)
     // Best Case O(1)
     // Worst case O(n+1)
-    while(count < maxSize){
-        if(hashTable[index] == key){
-            hashTable[index] = EMPTY_VALUE;
-            printf("Deleted %d successfully.", key);
-            return;
-        } else {
-            // Quardatic indexing (Double size of index)
-            index = count * 2;
-            // Make index in Array Size
-            int modIndex = index % SIZEOF_HASH_TABLE;
-            // If count is exceed Array Size
-            if (index >= SIZEOF_HASH_TABLE){
-                // Make Linear indexing (index size is in Array)
-                modIndex = (index - 1) % SIZEOF_HASH_TABLE;
-            }
-            // Change index value to modIndex
-            index = modIndex;
-            count++;
-        }
-        // printf(" %d ",index);
-    }
+//    while(count < maxSize){
+//        if(hashTable[index] == key){
+//            hashTable[index] = EMPTY_VALUE;
+//            printf("Deleted %d successfully.", key);
+//            return;
+//        } else {
+//            // Quardatic indexing (Double size of index)
+//            index = count * 2;
+//            // Make index in Array Size
+//            int modIndex = index % SIZEOF_HASH_TABLE;
+//            // If count is exceed Array Size
+//            if (index >= SIZEOF_HASH_TABLE){
+//                // Make Linear indexing (index size is in Array)
+//                modIndex = (index - 1) % SIZEOF_HASH_TABLE;
+//            }
+//            // Change index value to modIndex
+//            index = modIndex;
+//            count++;
+//        }
+//        // printf(" %d ",index);
+//    }
 
 }
 
@@ -290,42 +289,44 @@ bool isNegativeNumber(int number){
 
 // Check Data is in Array #should improve this to O(1)
 bool contains(int key){
-    int index = hash(key);
     // For Linear Serch
-    // for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
-    //     if(hashTable[i] == key){
-    //         return true;
-    //     }
-    // }
+     for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+         if(hashTable[i] == key){
+             return true;
+         }
+     }
+    return false;
 
     // HashTable lookup
     // For linear and Quadratic SEARCH
-    int count = 0;
-    int maxSize = SIZEOF_HASH_TABLE + 1;
+//    int count = 0;
+//    int maxSize = SIZEOF_HASH_TABLE + 1;
 
     // Avg case O(n/2)
     // Best Case O(1)
     // Worst case O(n+1)
-    while(count < maxSize){
-        if(hashTable[index] == key){
-            return true;
-        } else {
-            // Quardatic indexing (Double size of index)
-            index = count * 2;
-            // Make index in Array Size
-            int modIndex = index % SIZEOF_HASH_TABLE;
 
-            // If count is exceed Array Size
-            if (index >= SIZEOF_HASH_TABLE){
-                // Make Linear indexing (index size is in Array)
-                modIndex = (index - 1) % SIZEOF_HASH_TABLE;
-            }
-            // Change index value to mod_index
-            index = modIndex;
-            count++;
-        }
-        //printf("%d ",index);
-    }
-
-    return false;
+//    int index = hash(key);
+//    while(count < maxSize){
+//        if(hashTable[index] == key){
+//            return true;
+//        } else {
+//            // Quardatic indexing (Double size of index)
+//            index = count * 2;
+//            // Make index in Array Size
+//            int modIndex = index % SIZEOF_HASH_TABLE;
+//
+//            // If count is exceed Array Size
+//            if (index >= SIZEOF_HASH_TABLE){
+//                // Make Linear indexing (index size is in Array)
+//                modIndex = (index - 1) % SIZEOF_HASH_TABLE;
+//            }
+//            // Change index value to mod_index
+//            index = modIndex;
+//            count++;
+//        }
+//        //printf("%d ",index);
+//    }
+//
+//    return false;
 }
