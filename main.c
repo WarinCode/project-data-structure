@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <math.h>
 
-// Declare all directives
+// Declare all constant values
 #define SIZEOF_HASH_TABLE 11
 #define EMPTY_VALUE -1
 
-// Declare the hash table
+// Declare the Hash table
 int hashTable[SIZEOF_HASH_TABLE];
 
 // Declare all prototype functions
@@ -23,6 +23,7 @@ bool isEmpty();
 bool isFull();
 bool isNegativeNumber(int number);
 bool contains(int key);
+int getNumberofKeys();
 
 int main(void) {
     // Set Array value to -1 or Empty value
@@ -329,4 +330,19 @@ bool contains(int key){
 //    }
 //
 //    return false;
+}
+
+int getNumberofKeys(){
+    // If Hash table is empty
+    if(isEmpty()){
+        return 0;
+    }
+    // If Hash table is not empty
+    int counter = 0;
+    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+        if(!isEmptyCell(i)){
+            counter++;
+        }
+    }
+    return counter;
 }
