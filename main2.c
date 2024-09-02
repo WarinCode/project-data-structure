@@ -2,32 +2,39 @@
 #include <math.h>
 
 // Declare all constant values
-#define SIZEOF_HASH_TABLE 11
 #define EMPTY_VALUE -1
-
-// Declare the Hash table
-int hashTable[SIZEOF_HASH_TABLE];
+int size = 0;
 
 // Declare all prototype functions
-void init();
+void init(int hashTable[]);
 int hash(int key);
-void insert(int key);
-void delete(int key);
-void deleteAll();
-void display();
-void search(int key);
-void linearProbing(int key, int index);
-void quadraticProbing(int key, int index);
-bool isEmptyCell(int index);
-bool isEmpty();
-bool isFull();
+void insert(int key, int hashTable[]);
+void delete(int key, int hashTable[]);
+void deleteAll(int hashTable[]);
+void display(int hashTable[]);
+void search(int key, int hashTable[]);
+void linearProbing(int key, int index, int hashTable[]);
+void quadraticProbing(int key, int index, int hashTable[]);
+bool isEmptyCell(int index, int hashTable[]);
+bool isEmpty(int hashTable[]);
+bool isFull(int hashTable[]);
 bool isNegativeNumber(int number);
-bool contains(int key);
+bool isInteger(int number);
+bool contains(int key, int hashTable[]);
 int getNumberofKeys();
 
 int main(void) {
+    while(isNegativeNumber(size)){
+        printf("Enter number:");
+        scanf("%d", &size);
+        if(isNegativeNumber(size)){
+            printf("Error size of hash table is can't negative or zero!\n");
+        }
+    }
+    int hashTable[size];
+
     // Set Array value to -1 or Empty value
-    init();
+    init(hashTable);
 
     // Declare all variables
     int choice;
@@ -48,27 +55,27 @@ int main(void) {
             case 1:
                 printf("Enter the key:");
                 scanf("%d", &key);
-                insert(key);
+                insert(key, hashTable);
                 break;
                 // Delete data set value back to -1
             case 2:
                 printf("Enter the key:");
                 scanf("%d", &key);
-                delete(key);
+                delete(key, hashTable);
                 break;
                 // Display whole Array
             case 3:
-                display();
+                display(hashTable);
                 break;
                 // Search data in Array
             case 4:
                 printf("Enter the key:");
                 scanf("%d", &key);
-                search(key);
+                search(key, hashTable);
                 break;
                 // Delete whole data from Array set value back to -1
             case 5:
-                deleteAll();
+                deleteAll(hashTable);
                 break;
                 // Exit
             case 6:
@@ -85,23 +92,23 @@ int main(void) {
 
 
 // Set All Index in Array to have value of -1
-void init(){
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+void init(int hashTable[]){
+    for(int i = 0; i < size; i++){
         hashTable[i] = EMPTY_VALUE;
     }
 }
 
 // Hash numerical Data
 int hash(int key){
-    return key % SIZEOF_HASH_TABLE;
+    return key % size;
 }
 
 // Insert numerical Data
-void insert(int key){
+void insert(int key, int hashTable[]){
     // Call Hash function
     int index = hash(key);
     // Check if Full
-    if(isFull()){
+    if(isFull(hashTable)){
         printf("Hash table is full!\n");
     }
         // Check if it is a negative number
@@ -109,22 +116,22 @@ void insert(int key){
         printf("The key can't be entered as a negative number!\n");
     }
         // Check is Empty if True
-    else if(isEmptyCell(index)){
+    else if(isEmptyCell(index, hashTable)){
         hashTable[index] = key;
         printf("Inserted %d successfully.\n", key);
         // Check is Empty if False
     } else {
         // Call linearProbing function
-        linearProbing(key, index);
+        linearProbing(key, index, hashTable);
         // Call quadraticProbing function
         // quadraticProbing(key, index);
     }
 }
 
 // Delete numerical Data
-void delete(int key){
+void delete(int key, int hashTable[]){
     // Check if Array is Empty
-    if(isEmpty()){
+    if(isEmpty(hashTable)){
         printf("Hash table is empty!\n");
         return;
     }
@@ -134,14 +141,14 @@ void delete(int key){
         return;
     }
     // Check if Data not in Array
-    if(!contains(key)){
+    if(!contains(key, hashTable)){
         printf("The key %d does not exist in the hash table!\n", key);
         return;
     }
 
     // Linear Search
     // Check Data in Array by Default
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+    for(int i = 0; i < size; i++){
         // Find Data in Array
         if(hashTable[i] == key){
             // Get Data from Array
@@ -158,7 +165,7 @@ void delete(int key){
     // HashTable lookup
     // For linear and Quadratic SEARCH
 //    int count = 0;
-//    int maxSize = SIZEOF_HASH_TABLE + 1;
+//    int maxSize = size + 1;
 
     // Avg case O(n/2)
     // Best Case O(1)
@@ -172,11 +179,11 @@ void delete(int key){
 //            // Quardatic indexing (Double size of index)
 //            index = count * 2;
 //            // Make index in Array Size
-//            int modIndex = index % SIZEOF_HASH_TABLE;
+//            int modIndex = index % size;
 //            // If count is exceed Array Size
-//            if (index >= SIZEOF_HASH_TABLE){
+//            if (index >= size){
 //                // Make Linear indexing (index size is in Array)
-//                modIndex = (index - 1) % SIZEOF_HASH_TABLE;
+//                modIndex = (index - 1) % size;
 //            }
 //            // Change index value to modIndex
 //            index = modIndex;
@@ -188,14 +195,14 @@ void delete(int key){
 }
 
 // Delete all numerical Data from Array
-void deleteAll(){
+void deleteAll(int hashTable[]){
     // Check if Array is Empty
-    if(isEmpty()){
+    if(isEmpty(hashTable)){
         printf("Hash table is empty!\n");
         return;
     }
     // Check if Array is not Empty by default
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+    for(int i = 0; i < size; i++){
         // Set Index to -1
         hashTable[i] = EMPTY_VALUE;
     }
@@ -203,26 +210,26 @@ void deleteAll(){
 }
 
 // Display whole Array
-void display(){
+void display(int hashTable[]){
     printf("\n-------------------\n");
     printf("    Index   Key\n\n");
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+    for(int i = 0; i < size; i++){
         // Check if Data is -1 if Not Then Display
-        isEmptyCell(i) ? printf("    [%d]     \n", i) : printf("    [%d]    %d\n", i, hashTable[i]);
+        isEmptyCell(i, hashTable) ? printf("    [%d]     \n", i) : printf("    [%d]    %d\n", i, hashTable[i]);
     }
     printf("-------------------\n");
 }
 
 // LinearProb Function
-void linearProbing(int key, int index){
+void linearProbing(int key, int index, int hashTable[]){
     // Check if Index is not Empty
-    while(!isEmptyCell(index)){
+    while(!isEmptyCell(index, hashTable)){
         // Set Index into next index
         index++;
         // Not really need this
-        if(index == SIZEOF_HASH_TABLE){
+        if(index == size){
             // Keep Index in SIZE OF ARRAY
-            index %= SIZEOF_HASH_TABLE;
+            index %= size;
         }
     }
     // Index is Empty by Default Then Set Data to Index
@@ -231,18 +238,18 @@ void linearProbing(int key, int index){
 }
 
 // QuadraticProb Function
-void quadraticProbing(int key, int index){
+void quadraticProbing(int key, int index, int hashTable[]){
     // Set repettition value to 1
     int i = 1;
     int newIndex = index;
 
     // if index is not Empty(repettition)
-    while(!isEmptyCell(newIndex)){
+    while(!isEmptyCell(newIndex, hashTable)){
         // Formular: (H(x) + i ** 2) / SIZE
         // Find new Index using formular
 
         // Set NewIndex to New Index and modulo Size of
-        newIndex = (index + ((int)pow(i, 2))) % SIZEOF_HASH_TABLE;
+        newIndex = (index + ((int)pow(i, 2))) % size;
         i++;
     }
     // Index is Empty
@@ -252,19 +259,19 @@ void quadraticProbing(int key, int index){
 }
 
 // Search Function
-void search(int key){
+void search(int key, int hashTable[]){
     // If data in Array Then Found Else Not found.
-    contains(key) ? printf("Found %d in the hash table.\n", key) : printf("Not found %d in the hash table.\n", key);
+    contains(key, hashTable) ? printf("Found %d in the hash table.\n", key) : printf("Not found %d in the hash table.\n", key);
 }
 
 // Check if Index is Empty
-bool isEmptyCell(int index){
+bool isEmptyCell(int index, int hashTable[]){
     return hashTable[index] == EMPTY_VALUE;
 }
 
 // Check if Array is Empty
-bool isEmpty(){
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+bool isEmpty(int hashTable[]){
+    for(int i = 0; i < size; i++){
         if(hashTable[i] != EMPTY_VALUE) {
             return false;
         }
@@ -273,25 +280,28 @@ bool isEmpty(){
 }
 
 // Check if Array is Full
-bool isFull(){
+bool isFull(int hashTable[]){
     int counter = 0;
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+    for(int i = 0; i < size; i++){
         if(hashTable[i] != EMPTY_VALUE){
             counter++;
         }
     }
-    return counter == SIZEOF_HASH_TABLE;
+    return counter == size;
 }
 
 // Check if a number is negative
 bool isNegativeNumber(int number){
-    return number < 0;
+    return number <= 0;
 }
 
+bool isInteger(int number){
+    return number > 1;
+}
 // Check Data is in Array #should improve this to O(1)
-bool contains(int key){
+bool contains(int key, int hashTable[]){
     // For Linear Serch
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
+    for(int i = 0; i < size; i++){
         if(hashTable[i] == key){
             return true;
         }
@@ -301,7 +311,7 @@ bool contains(int key){
     // HashTable lookup
     // For linear and Quadratic SEARCH
 //    int count = 0;
-//    int maxSize = SIZEOF_HASH_TABLE + 1;
+//    int maxSize = size + 1;
 
     // Avg case O(n/2)
     // Best Case O(1)
@@ -315,12 +325,12 @@ bool contains(int key){
 //            // Quardatic indexing (Double size of index)
 //            index = count * 2;
 //            // Make index in Array Size
-//            int modIndex = index % SIZEOF_HASH_TABLE;
+//            int modIndex = index % size;
 //
 //            // If count is exceed Array Size
-//            if (index >= SIZEOF_HASH_TABLE){
+//            if (index >= size){
 //                // Make Linear indexing (index size is in Array)
-//                modIndex = (index - 1) % SIZEOF_HASH_TABLE;
+//                modIndex = (index - 1) % size;
 //            }
 //            // Change index value to mod_index
 //            index = modIndex;
@@ -330,19 +340,4 @@ bool contains(int key){
 //    }
 //
 //    return false;
-}
-
-int getNumberofKeys(){
-    // If Hash table is empty
-    if(isEmpty()){
-        return 0;
-    }
-    // If Hash table is not empty
-    int counter = 0;
-    for(int i = 0; i < SIZEOF_HASH_TABLE; i++){
-        if(!isEmptyCell(i)){
-            counter++;
-        }
-    }
-    return counter;
 }

@@ -3,4 +3,5 @@ project(project_data_structure C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(project_data_structure main.c)
+add_executable(project_data_structure main.c
+        main2.c)
