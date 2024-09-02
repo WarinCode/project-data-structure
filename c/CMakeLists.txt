@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
-project(project_data_structure C)
+project(c)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(project_data_structure main.c
+add_executable(c main.c
         main2.c)
