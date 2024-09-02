@@ -79,7 +79,7 @@ class Program(HashTable, Validator, OpenAddressing):
         super().__init__()
 
     def run(self) -> None:
-        while(self._runnable):
+        while self._runnable:
             print("\n Menu")
             print(" 1. Insert\n 2. Delete\n 3. Display\n 4. Search\n 5. Exit");
             try:
@@ -207,6 +207,6 @@ class Program(HashTable, Validator, OpenAddressing):
                 return True
         return False
     
-
+# Created the instance of program
 program = Program()
 program.run()
