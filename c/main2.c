@@ -295,9 +295,6 @@ bool isNegativeNumber(int number){
     return number <= 0;
 }
 
-bool isInteger(int number){
-    return number > 1;
-}
 // Check Data is in Array #should improve this to O(1)
 bool contains(int key, int hashTable[]){
     // For Linear Serch
