@@ -1,30 +1,31 @@
-from math import pow
 from abc import ABC, abstractmethod
-
 
 # The `class Validator(ABC)` is defining an abstract base class (ABC) named `Validator`. This class
 # contains abstract methods that must be implemented by any subclass that inherits from it
 class Validator(ABC):
     @abstractmethod
-    def is_empty_cell(self, index) -> bool: 
+    def is_empty_cell(self, index: int) -> bool: 
         ...
 
     @abstractmethod
     def is_empty(self) -> bool: 
         ...
-
+    
     @abstractmethod
     def is_full(self) -> bool: 
         ...
 
     @abstractmethod
-    def is_negative_number(self, n) -> bool: 
+    def contains(self, key: int) -> bool: 
         ...
 
-    @abstractmethod
-    def contains(self, key) -> bool: 
-        ...
-
+    # Check if a number is negative
+    def is_negative(self, n: int) -> bool: 
+        return n < 0
+        
+    # Check if a number is zero
+    def is_zero(self, n: int) -> bool:
+        return n == 0
 
 # The `class OpenAddressing(ABC)` is defining an abstract base class (ABC) named `OpenAddressing`.
 # This class contains abstract methods that must be implemented by any subclass that inherits from it.
@@ -36,7 +37,7 @@ class OpenAddressing(ABC):
     }
     # Selecte Linear probing by default
     select_type = types_of_addressing["linear"]
-
+    
     # Sets the type of addressing
     def _set_addressing(self) -> None:
         # Show information
@@ -84,7 +85,7 @@ class HashTable(ABC):
                 print("Error: Enter an integer number only!")
             except Exception:
                 print("Error: The size can't be a negative number or zero!")
-
+       
         # Set All Index in Array to have value of -1
         for i in range(self.get_size()):
             self._table.append(self.EMPTY_VALUE)
@@ -127,7 +128,7 @@ class ChoicesofProgram:
     def show_menu() -> None:
         print("\n Menu")
         # Keep list of menu
-        menus = ["Insert", "Delete", "Display", "Search", "Select Addressing", "Exit"]
+        menus = ("Insert", "Delete", "Display", "Search", "Select Addressing", "Exit")
         # Show each menu
         for i in range(len(menus)):
             print(f"{i + 1}.) {menus[i]}")
@@ -142,7 +143,7 @@ class Program(HashTable, Validator, OpenAddressing):
 
     # Constructor method
     def __init__(self) -> None:
-        # Call the constructor method of superclass
+        # Call the constructor method of superclass (HashTable)
         super().__init__()
 
     # Run Program
@@ -178,7 +179,7 @@ class Program(HashTable, Validator, OpenAddressing):
                 elif self.get_choice() == ChoicesofProgram.SET_ADDRESSING:
                     self._set_addressing()
                     print("Successfully changed the address type.")
-                    
+                                                            
                 # Exit
                 elif self.get_choice() == ChoicesofProgram.EXIT:
                     self._runnable = False
@@ -201,7 +202,7 @@ class Program(HashTable, Validator, OpenAddressing):
         # Set the key
         self.__set_key(int(input("Enter the key: ")))
         # Check that the number must be an integer, otherwise an AssertionException will occur.
-        assert not self.is_negative_number(self.get_key()) or self.get_key() == 0
+        assert not self.is_negative(self.get_key()) or not self.is_zero(self.get_key())
 
     # Returns the choice number
     def get_choice(self) -> int:
@@ -228,7 +229,7 @@ class Program(HashTable, Validator, OpenAddressing):
         if self.is_full():
             print("Hash table is full!")
         # Check if it is a negative number
-        elif self.is_negative_number(key):
+        elif self.is_negative(key):
             print("The key can't be entered as a negative number!")
         # Check is Empty if True
         elif self.is_empty_cell(index):
@@ -251,14 +252,14 @@ class Program(HashTable, Validator, OpenAddressing):
             print("Hash table is empty!")
             return
         # Check if it is a negative number
-        if self.is_negative_number(key):
+        if self.is_negative(key):
             print("The key can't be entered as a negative number!")
             return
         # Check if Data not in Array
         if not self.contains(key):
             print(f"The key {key} does not exist in the hash table!")
             return
-
+                
         # Linear Search
         # Check Data in Array by Default
         for i in range(self.get_size()):
@@ -266,7 +267,39 @@ class Program(HashTable, Validator, OpenAddressing):
                 self._table[i] = self.EMPTY_VALUE
                 print(f"Deleted {key} successfully.")
                 break
+            
+        # Hash table lookup
+        # index = self.hash(key)
+        # HashTable lookup
+        # For linear and Quadratic SEARCH
+        # count = 0
+        # max_size = self.get_size() + 1
 
+        # Avg case O(n/2)
+        # Best Case O(1)
+        # Worst case O(n+1)
+        
+        # while count < max_size:
+        #     if self._table[index] == key:
+        #         self._table[index] = self.EMPTY_VALUE;
+        #         print(f"Deleted {key} successfully.");
+        #         return
+        #     else:
+        #         # Quardatic indexing (Double size of index)
+        #         index = count * 2;
+        #         # Make index in Array Size
+        #         mod_index = index % self.get_size();
+        #         # If count is exceed Array Size
+        #         if index >= self.get_size():
+        #             # Make Linear indexing (index size is in Array)
+        #             mod_index = (index - 1) % self.get_size();
+                
+        #         # Change index value to modIndex
+        #         index = mod_index;
+        #         count += 1
+            
+        #     print(index);
+    
     # Display whole Array
     def display(self) -> None:
         print("\n-------------------\n")
@@ -299,10 +332,10 @@ class Program(HashTable, Validator, OpenAddressing):
 
         # If index is not Empty(repettition)
         while not self.is_empty_cell(index):
-            # Formular: (H(x) + i ** 2) % SIZE
+            # Formular: (H(x) + i ^ 2) % SIZE
             # Find new Index using formular
             # Set NewIndex to New Index and modulo Size of
-            new_index = self.hash(index + pow(i, 2))
+            new_index = self.hash(index + (i ** 2))
             i += 1
         # Index is Empty
         # Set Data to index
@@ -322,6 +355,10 @@ class Program(HashTable, Validator, OpenAddressing):
 
     # Method override: Check if Array is Empty
     def is_empty(self) -> bool:
+        # Check if size of hash table is zero number
+        if self.is_zero(len(self._table)):
+            return True
+        # Loop to find empty value
         for i in range(self.get_size()):
             if not self.is_empty_cell(i):
                 return False
@@ -329,23 +366,54 @@ class Program(HashTable, Validator, OpenAddressing):
 
     # Method override: Check if Array is Full
     def is_full(self) -> bool:
-        counter = 0
-        for i in range(self.get_size()):
-            if not self.is_empty_cell(i):
-                counter += 1
-        return counter == self._size
-
-    # Method override: Check if a number is negative
-    def is_negative_number(self, n: int) -> bool:
-        return n < 0
+        return self.is_zero(self._table.count(self.EMPTY_VALUE))
+        
+        # For Linear Serch
+        # counter = 0
+        # for i in range(self.get_size()):
+        #     if not self.is_empty_cell(i):
+        #         counter += 1
+        # return counter == self._size
 
     # Method override: Check Data is in Array #should improve this to O(1)
     def contains(self, key: int) -> bool:
+        return key in self._table
+    
         # For Linear Serch
-        for i in range(self.get_size()):
-            if self._table[i] == key:
-                return True
-        return False
+        # for i in range(self.get_size()):
+        #     if self._table[i] == key:
+        #         return True
+        # return False
+        
+        # HashTable lookup
+        # For linear and Quadratic SEARCH
+        # count = 0
+        # max_size = self.get_size() + 1;
+
+        # Avg case O(n/2)
+        # Best Case O(1)
+        # Worst case O(n+1)
+
+        # index = self.hash(key)
+        # while count < max_size:
+        #     if self._table[index] == key:
+        #         return True;
+        #     else: 
+        #         # Quardatic indexing (Double size of index)
+        #         index = count * 2;
+        #         # Make index in Array Size
+        #         mod_index = index % self.get_size();
+
+        #         # If count is exceed Array Size
+        #     if index >= self.get_size():
+        #         # Make Linear indexing (index size is in Array)
+        #         mod_index = (index - 1) % self.get_size();
+        #         # Change index value to mod_index
+        #         index = mod_index;
+        #         count += 1;
+        #     print(index);
+        
+        # return False;
 
 
 # Created an instance of the program
