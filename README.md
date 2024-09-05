@@ -6,8 +6,13 @@
 
 > [!NOTE]
 > ส่งงาน project วิชา Data Structures and Algorithms ปี 2 ภาคต้น
-> โดยโปรเจคนี้ทำในหัวข้อเรื่อง Hashing
 
+### รายละเอียดโปรเจค
+*เขียนโปรแกรมสร้างโครงสร้างข้อมูลเป็นเรื่่อง Hashing ตามที่เรียนมาใน class เรียนโดยได้เขียนด้วยภาษา Python เป็นรูปแบบ OOP*
+
+สามารถดาวโหลด์เอกสารประกอบโปรเจคนี้ได้ที่ [link นี้]()
+
+---
 
 ### สมาชิกในกลุ่ม
 1. นางสาว อัมพุชินี บุญรักษ์
@@ -20,7 +25,7 @@
 
 ### เครื่องมือที่ต้องติดตั้ง
 1. [Git](https://git-scm.com/downloads)
-2. [GCC](https://sourceforge.net/projects/gcc-win64/)
+2. [Python](https://www.python.org/)
 3. [Visual Studio Code](https://code.visualstudio.com/)
 
 ---
@@ -35,14 +40,14 @@ git clone https://github.com/WarinCode/project-data-structure.git
 
 2. เข้าถึง directory
 ```
-cd project-data-structure
+cd project-data-structure/python
 ```
 
 3. รันโปรแกรม
 ```
-gcc main.c
+py main.py
 ```
 
-4. หรือจะเปิดโปรแกรมที่ชื่อ `main.exe` ก็ได้จะได้หน้าตาประมาณนี้
+จะได้หน้าตาโปรแกรมประมาณนี้
 
-![image](./img/img.png)
+![](./img/img.jpg)

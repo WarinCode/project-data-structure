@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 # The `class Validator(ABC)` is defining an abstract base class (ABC) named `Validator`. This class
 # contains abstract methods that must be implemented by any subclass that inherits from it
 class Validator(ABC):
+    # Declare all abstract methods
     @abstractmethod
     def is_empty_cell(self, index: int) -> bool: 
         ...
@@ -16,7 +17,7 @@ class Validator(ABC):
         ...
 
     @abstractmethod
-    def contains(self, key: int) -> bool: 
+    def find_key(self, key: int) -> bool: 
         ...
 
     # Check if a number is negative
@@ -54,6 +55,7 @@ class OpenAddressing(ABC):
         # Assign a new value
         self.select_type = self.types_of_addressing[key]
 
+    # Declare all abstract methods
     @abstractmethod
     def linear_probing(self, key: int, index: int) -> None: 
         ...
@@ -93,7 +95,16 @@ class HashTable(ABC):
     # Hash numerical Data
     def hash(self, key: int) -> int:
         return key % self.get_size()
+    
+    # Returns the size of the hash table
+    def get_size(self) -> int:
+        return self._size
 
+    # Sets the size attribute of an object to the specified integer value
+    def __set_size(self, size: int) -> None:
+        self._size = size
+
+    # Declare all abstract methods
     @abstractmethod
     def insert(self, key: int) -> None: 
         ...
@@ -106,14 +117,6 @@ class HashTable(ABC):
     def search(self, key: int) -> None: 
         ...
 
-    # Returns the size of the hash table
-    def get_size(self) -> int:
-        return self._size
-
-    # Sets the size attribute of an object to the specified integer value
-    def __set_size(self, size: int) -> None:
-        self._size = size
-
 
 class ChoicesofProgram:
     # Declare all constant attributes
@@ -124,6 +127,7 @@ class ChoicesofProgram:
     SET_ADDRESSING = 5
     EXIT = 6
 
+    # Display a menu of options to the user.
     @staticmethod
     def show_menu() -> None:
         print("\n Menu")
@@ -220,7 +224,7 @@ class Program(HashTable, Validator, OpenAddressing):
     def __set_key(self, key: int) -> None:
         self._key = key
 
-    # Method override: Insert numerical Data
+    # Override: Insert numerical Data
     def insert(self, key: int) -> None:
         # Call Hash method
         index = self.hash(key)
@@ -245,7 +249,7 @@ class Program(HashTable, Validator, OpenAddressing):
                 self.quadratic_probing(key, index)
             print(f"Inserted {key} successfully.")
 
-    # Method override: Delete numerical Data
+    # Override: Delete numerical Data
     def delete(self, key: int) -> None:
         # Check if Array is Empty
         if self.is_empty():
@@ -256,7 +260,7 @@ class Program(HashTable, Validator, OpenAddressing):
             print("The key can't be entered as a negative number!")
             return
         # Check if Data not in Array
-        if not self.contains(key):
+        if not self.find_key(key):
             print(f"The key {key} does not exist in the hash table!")
             return
                 
@@ -311,7 +315,7 @@ class Program(HashTable, Validator, OpenAddressing):
                 print(f"    [{i}]    {self._table[i]}")
         print("\n-------------------\n")
 
-    # Method override: LinearProb method
+    # Override: LinearProb method
     def linear_probing(self, key: int, index: int) -> None:
         # Check if Index is not Empty
         while not self.is_empty_cell(index):
@@ -324,7 +328,7 @@ class Program(HashTable, Validator, OpenAddressing):
         # Index is Empty by Default Then Set Data to Index
         self._table[index] = key
 
-    # Method override: QuadraticProb method
+    # Override: QuadraticProb method
     def quadratic_probing(self, key: int, index: int) -> None:
         # Set repettition value to 1
         i = 1
@@ -341,19 +345,19 @@ class Program(HashTable, Validator, OpenAddressing):
         # Set Data to index
         self._table[new_index] = key
 
-    # Method override: Search method
+    # Override: Search method
     def search(self, key: int) -> None:
         # If data in Array Then Found Else Not found
-        if self.contains(key):
+        if self.find_key(key):
             print(f"Found {key} in the hash table.")
         else:
             print(f"Not found {key} in the hash table.")
 
-    # Method override: Check if Index is Empty
+    # Override: Check if Index is Empty
     def is_empty_cell(self, index: int) -> bool:
         return self._table[index] == self.EMPTY_VALUE
 
-    # Method override: Check if Array is Empty
+    # Override: Check if Array is Empty
     def is_empty(self) -> bool:
         # Check if size of hash table is zero number
         if self.is_zero(len(self._table)):
@@ -364,7 +368,7 @@ class Program(HashTable, Validator, OpenAddressing):
                 return False
         return True
 
-    # Method override: Check if Array is Full
+    # Override: Check if Array is Full
     def is_full(self) -> bool:
         return self.is_zero(self._table.count(self.EMPTY_VALUE))
         
@@ -375,8 +379,8 @@ class Program(HashTable, Validator, OpenAddressing):
         #         counter += 1
         # return counter == self._size
 
-    # Method override: Check Data is in Array #should improve this to O(1)
-    def contains(self, key: int) -> bool:
+    # Override: Check Data is in Array #should improve this to O(1)
+    def find_key(self, key: int) -> bool:
         return key in self._table
     
         # For Linear Serch
@@ -416,7 +420,7 @@ class Program(HashTable, Validator, OpenAddressing):
         # return False;
 
 
-# Created an instance of the program
+# Creating an instance of a Program class and assigning it to the variable
 program = Program()
-# Run program with run method
+# Running a program with run method
 program.run()
