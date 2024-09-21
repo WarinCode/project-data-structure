@@ -118,7 +118,7 @@ class HashTable(ABC):
         ...
 
 
-class ChoicesofProgram:
+class Choices:
     # Declare all constant attributes
     INSERT = 1
     DELETE = 2
@@ -154,55 +154,55 @@ class Program(HashTable, Validator, OpenAddressing):
     def run(self) -> None:
         while self._runnable:
             # Show menu
-            ChoicesofProgram.show_menu()
+            Choices.show_menu()
             try:
                 # Get choice number
                 self.__set_choice(int(input("Enter a number: ")))
 
                 # Case choice
                 # Insert data
-                if self.get_choice() == ChoicesofProgram.INSERT:
-                    self._enter_key()
+                if self.get_choice() == Choices.INSERT:
+                    self._input_key()
                     self.insert(self.get_key())
                     
                 # Delete data set value back to -1
-                elif self.get_choice() == ChoicesofProgram.DELETE:
-                    self._enter_key()
+                elif self.get_choice() == Choices.DELETE:
+                    self._input_key()
                     self.delete(self.get_key())
                     
                 # Display whole Array
-                elif self.get_choice() == ChoicesofProgram.DISPLAY:
+                elif self.get_choice() == Choices.DISPLAY:
                     self.display()
                     
                 # Search data in Array
-                elif self.get_choice() == ChoicesofProgram.SEARCH:
-                    self._enter_key()
+                elif self.get_choice() == Choices.SEARCH:
+                    self._input_key()
                     self.search(self.get_key())
                     
                 # Select address type
-                elif self.get_choice() == ChoicesofProgram.SET_ADDRESSING:
+                elif self.get_choice() == Choices.SET_ADDRESSING:
                     self._set_addressing()
                     print("Successfully changed the address type.")
                                                             
                 # Exit
-                elif self.get_choice() == ChoicesofProgram.EXIT:
+                elif self.get_choice() == Choices.EXIT:
                     self._runnable = False
                     print("Exited the program.")
                     
                 # Handle wrong choice number
                 else:
-                    raise Exception("Wrong choice please input the number between or 1 - 6 only!")
+                    raise Exception("Error: Wrong choice please input the number between 1 - 6 only!")
                 
             # When an error occurs
             except ValueError:
-                print("Error: Please enter only integers!")
+                print("Error: Please enter integer only!")
             except AssertionError:
                 print("Error: The size can't be a negative number or zero!")
             except Exception as e:
                 print(e.__str__())
 
     # Prompts the user to enter a key and ensures that the key isn't a negative number
-    def _enter_key(self) -> None:
+    def _input_key(self) -> None:
         # Set the key
         self.__set_key(int(input("Enter the key: ")))
         # Check that the number must be an integer, otherwise an AssertionException will occur.
@@ -234,7 +234,7 @@ class Program(HashTable, Validator, OpenAddressing):
             print("Hash table is full!")
         # Check if it is a negative number
         elif self.is_negative(key):
-            print("The key can't be entered as a negative number!")
+            print("Error: The key can't be entered as a negative number!")
         # Check is Empty if True
         elif self.is_empty_cell(index):
             self._table[index] = key
@@ -257,11 +257,11 @@ class Program(HashTable, Validator, OpenAddressing):
             return
         # Check if it is a negative number
         if self.is_negative(key):
-            print("The key can't be entered as a negative number!")
+            print("Error: The key can't be entered as a negative number!")
             return
         # Check if Data not in Array
         if not self.find_key(key):
-            print(f"The key {key} does not exist in the hash table!")
+            print(f"Error: The key {key} does not exist in the hash table!")
             return
                 
         # Linear Search
@@ -335,7 +335,7 @@ class Program(HashTable, Validator, OpenAddressing):
         new_index = index
 
         # If index is not Empty(repettition)
-        while not self.is_empty_cell(index):
+        while not self.is_empty_cell(new_index):
             # Formular: (H(x) + i ^ 2) % SIZE
             # Find new Index using formular
             # Set NewIndex to New Index and modulo Size of
