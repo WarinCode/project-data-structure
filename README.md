@@ -10,7 +10,7 @@
 ### รายละเอียดโปรเจค
 *เขียนโปรแกรมสร้างโครงสร้างข้อมูลเป็นเรื่่อง Hashing ตามที่เรียนมาใน class เรียนโดยได้เขียนด้วยภาษา Python เป็นรูปแบบ OOP*
 
-สามารถดาวโหลด์เอกสารประกอบโปรเจคนี้ได้ที่ [link นี้](https://drive.google.com/file/d/11KcgTz8oQNFPoJG4fFkJPX2hzzn_bDcd/view?usp=drivesdk)
+สามารถดาวโหลด์เอกสารประกอบและโค้ดโปรเจคนี้ได้ที่ [link นี้](https://drive.google.com/drive/folders/1JjTdd_AqYqMb5OirQf9CXoArleR2mceQ?usp=drive_link)
 
 ---
 
