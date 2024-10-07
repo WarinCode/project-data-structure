@@ -124,15 +124,14 @@ class Choices:
     DELETE = 2
     DISPLAY = 3
     SEARCH = 4
-    SET_ADDRESSING = 5
-    EXIT = 6
+    EXIT = 5
 
     # Display a menu of options to the user.
     @staticmethod
     def show_menu() -> None:
         print("\n Menu")
         # Keep list of menu
-        menus = ("Insert", "Delete", "Display", "Search", "Select Addressing", "Exit")
+        menus = ("Insert", "Delete", "Display", "Search", "Exit")
         # Show each menu
         for i in range(len(menus)):
             print(f"{i + 1}.) {menus[i]}")
@@ -149,6 +148,7 @@ class Program(HashTable, Validator, OpenAddressing):
     def __init__(self) -> None:
         # Call the constructor method of superclass (HashTable)
         super().__init__()
+        self._set_addressing()
 
     # Run Program
     def run(self) -> None:
@@ -180,18 +180,14 @@ class Program(HashTable, Validator, OpenAddressing):
                     self.search(self.get_key())
                     
                 # Select address type
-                elif self.get_choice() == Choices.SET_ADDRESSING:
-                    self._set_addressing()
-                    print("Successfully changed the address type.")
-                                                            
-                # Exit
                 elif self.get_choice() == Choices.EXIT:
                     self._runnable = False
                     print("Exited the program.")
-                    
+                    self._set_addressing()
+                    print("Successfully changed the address type.")
                 # Handle wrong choice number
                 else:
-                    raise Exception("Error: Wrong choice please input the number between 1 - 6 only!")
+                    raise Exception("Error: Wrong choice please input the number between 1 - 5 only!")
                 
             # When an error occurs
             except ValueError:
@@ -239,6 +235,7 @@ class Program(HashTable, Validator, OpenAddressing):
         elif self.is_empty_cell(index):
             self._table[index] = key
             print(f"Inserted {key} successfully.")
+            self.display()
         # Check is Empty if False and the Key collided in the hash table
         else:
             if self.select_type == self.types_of_addressing["linear"]:
@@ -247,6 +244,7 @@ class Program(HashTable, Validator, OpenAddressing):
             elif self.select_type == self.types_of_addressing["quadratic"]:
                 # Call quadraticProbing method
                 self.quadratic_probing(key, index)
+            self.display()
             print(f"Inserted {key} successfully.")
 
     # Override: Delete numerical Data
