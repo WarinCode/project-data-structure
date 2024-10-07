@@ -54,6 +54,7 @@ class OpenAddressing(ABC):
                 print("Invalid type please enter again!")
         # Assign a new value
         self.select_type = self.types_of_addressing[key]
+        print("Successfully changed the address type.")
 
     # Declare all abstract methods
     @abstractmethod
@@ -183,8 +184,6 @@ class Program(HashTable, Validator, OpenAddressing):
                 elif self.get_choice() == Choices.EXIT:
                     self._runnable = False
                     print("Exited the program.")
-                    self._set_addressing()
-                    print("Successfully changed the address type.")
                 # Handle wrong choice number
                 else:
                     raise Exception("Error: Wrong choice please input the number between 1 - 5 only!")
@@ -244,8 +243,8 @@ class Program(HashTable, Validator, OpenAddressing):
             elif self.select_type == self.types_of_addressing["quadratic"]:
                 # Call quadraticProbing method
                 self.quadratic_probing(key, index)
-            self.display()
             print(f"Inserted {key} successfully.")
+            self.display()
 
     # Override: Delete numerical Data
     def delete(self, key: int) -> None:
